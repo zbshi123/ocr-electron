@@ -14,6 +14,7 @@
   .main-content {
     flex: 1;
     padding: 10px;
+    margin-left: 150px;
   }
   </style>
   

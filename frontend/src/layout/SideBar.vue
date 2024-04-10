@@ -1,4 +1,4 @@
-<template>
+<template id="side">
   <div class="sidebar">
     <router-link to="/">Home</router-link>
     <router-link to="/about">About</router-link>
@@ -14,8 +14,14 @@ export default {
 
 <style>
 .sidebar {
-  width: 150px;
-  background-color: #959e97;
+  background-color: #bacfbe;
+  text-align: center;
+
+  position: fixed; /* 让侧边栏固定在页面 */
+  left: 0; /* 将侧边栏固定在页面的左侧 */
+  top: 0; /* 将侧边栏固定在页面的顶部 */
+  width: 150px; /* 设置侧边栏的宽度 */
+  height: 100%; /* 设置侧边栏的高度，与页面高度相同 */
 }
 .sidebar a {
   display: block;

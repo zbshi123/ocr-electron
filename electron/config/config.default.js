@@ -17,13 +17,13 @@ module.exports = (appInfo) => {
   /**
    * 应用程序顶部菜单
    */
-  config.openAppMenu = true;
+  config.openAppMenu = false;
 
   /**
    * 主窗口
    */
   config.windowsOption = {
-    title: 'EE框架',
+    title: '档案封面OCR识别',
     width: 980,
     height: 650,
     minWidth: 400,

@@ -3,19 +3,63 @@
       <h1>{{ title }}</h1>
       <p>{{ content }}</p>
       <input type="file" @change="handleFileUpload">
-      <button @click="uploadFile">上传文件</button>
+      <button @click="uploadFile">上传图片</button>
+      <div class="area1">
+        <div class="area2-left">
+          <!-- 展示上传的图片 -->
+          <img v-if="imageUrl" :src="imageUrl" alt="Uploaded Image">
 
-      <!-- 展示上传的图片 -->
-    <img v-if="imageUrl" :src="imageUrl" alt="Uploaded Image" style="max-width: 300px; max-height: 300px;">
+        </div>
+        <div class="area2-right">
+          fds
+        </div>
+      </div>
+      
+      <camera/>
+      
     </div>
+    
 </template>
+
+<style scoped>
+  .area1 {
+    height: 100%;
+    width: 100%;
+    background-color: #bd1818;;
+    display: flex;
+    align-items: center; /* 在交叉轴上居中对齐 */
+    justify-content: space-between; /* 在主轴上均匀分布，首尾不留间隔 */
+  }
+
+  .area2-left {
+    flex:1; /*flex指定元素在flexbox中的伸缩比例 */
+    height:300px;
+    background-color: #5f719e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .area2-right {
+    flex: 1;
+    height:300px;
+    background-color: aquamarine;
+  }
+
+  img {
+    max-width: 300px;
+    max-height: 300px;
+  }
+</style>
   
 <script>
 import { ipcApiRoute } from '../api/main';
+import Camera from '../components/Camera.vue';
 import { ipc } from '../utils/ipcRenderer';
 
 
   export default {
+    components: { Camera },
     name: 'Home',
     data() {
       return {
@@ -34,6 +78,7 @@ import { ipc } from '../utils/ipcRenderer';
         reader.readAsDataURL(this.file);
         reader.onload = () => {
           this.imageUrl = reader.result; // 将 Data URL 赋值给 imageUrl
+          console.log(this.imageUrl);
         };
       },
       uploadFile() {

@@ -28,7 +28,17 @@ class ExampleController extends Controller {
     const result = await Services.get('example').test('electron');
     Log.info('service result:', result);
 
-    return 'hello electron-egg';
+    return 'test';
+  }
+
+  /**
+   * test
+   */
+  async hello () {
+    const result = await Services.get('example').test('electron');
+    Log.info('service result:', result);
+
+    return 'hello';
   }
 
 

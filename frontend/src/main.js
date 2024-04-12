@@ -1,8 +1,11 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import './assets/global.less';
 import components from './components/global';
 import Router from './router/index';
+import * as AntIcon from '@ant-design/icons-vue';
+import Antd from 'ant-design-vue';
+import './assets/global.less';
+import './assets/theme.less';
 
 const app = createApp(App)
 app.config.productionTip = false
@@ -12,4 +15,12 @@ for (const i in components) {
   app.component(i, components[i])
 }
 
-app.use(Router).mount('#app')
+// icon
+for (const i in AntIcon) {
+  const whiteList = ['createFromIconfontCN', 'getTwoToneColor', 'setTwoToneColor', 'default']
+  if (!whiteList.includes(i)) {
+    app.component(i, AntIcon[i])
+  }
+}
+
+app.use(Antd).use(Router).mount('#app')

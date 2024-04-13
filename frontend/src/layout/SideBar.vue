@@ -2,6 +2,7 @@
   <div class="sidebar">
     <router-link to="/">Home</router-link>
     <router-link to="/about">About</router-link>
+    <router-link to="/test">Test</router-link>
     <!-- 添加其他导航链接 -->
   </div>
 </template>
@@ -14,7 +15,7 @@ export default {
 
 <style>
 .sidebar {
-  background-color: #bacfbe;
+  background-color: #ffffff;
   text-align: center;
 
   position: fixed; /* 让侧边栏固定在页面 */
@@ -22,15 +23,17 @@ export default {
   top: 0; /* 将侧边栏固定在页面的顶部 */
   width: 150px; /* 设置侧边栏的宽度 */
   height: 100%; /* 设置侧边栏的高度，与页面高度相同 */
+  border-right: 2px solid rgb(0, 0, 0);  
 }
 .sidebar a {
   display: block;
   padding: 10px;
   text-decoration: none;
   color: #000000;
+  border-bottom: 2px solid rgb(0, 0, 0);
 }
 .sidebar a:hover {
-  background-color: #9ae6b1;
+  background-color: #c6c6c6;
 }
 </style>
 

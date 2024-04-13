@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
       <a-button @click="sendData">点击发送数据</a-button>
       <div v-if="loading">发送中...</div>
       <div v-if="response">{{ response }}</div>
@@ -41,6 +41,10 @@
   </script>
   
   <style>
-  /* 可选：添加样式 */
+  .container {
+        border: 2px solid rgb(0, 0, 0);
+        margin-bottom: 2px;
+        padding: 2px;    
+    }
   </style>
   

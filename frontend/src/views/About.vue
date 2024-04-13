@@ -14,7 +14,7 @@
 import InvokePython from '../components/InvokePython.vue'
 import PictureUpload from '../components/PictureUpload.vue'
 import PostData from '../components/PostData.vue'
-import TableComponent from '../components/TableComponent.vue'
+import TableComponent from '../components/DynamicTable.vue'
   export default {
     components: { TableComponent, InvokePython, PostData, PictureUpload },
     name: 'About',

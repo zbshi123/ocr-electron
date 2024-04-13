@@ -1,10 +1,9 @@
 <template>
-    <div>
+    <div class="container">
       <input type="file" @change="handleFileUpload">
       <a-button @click="uploadFile">上传图片</a-button>
       <div class="area1">
         <div class="area1-left">
-            <!-- 展示上传的图片 -->
             <img v-if="imageUrl" :src="imageUrl" alt="Uploaded Image">
 
         </div>
@@ -16,7 +15,6 @@
         <div v-if="loading">发送中...</div>
         <a-textarea v-model:value="response" :auto-size="{ minRows: 8, maxRows: 8 }"></a-textarea>
       </div>
-    
     </div>
     
 </template>
@@ -96,6 +94,12 @@ export default {
 
 
 <style scoped>
+    .container {
+        border: 2px solid rgb(0, 0, 0);
+        margin-bottom: 2px;
+        padding: 2px;    
+    }
+
   .area1 {
     height: 100%;
     width: 100%;
@@ -112,14 +116,15 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
   }
 
   .area1-right {
     flex: 1;
     height:300px;
     background-color: #f0f0f0;
-    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   img {

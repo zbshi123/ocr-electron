@@ -1,5 +1,5 @@
 <template>
-    <div id="app-cross-python">
+    <div class="container">
       <div class="one-block-1">
         <span>
           发送http请求
@@ -7,12 +7,12 @@
       </div>  
       <div class="one-block-2">
         <a-space>
-          <a-button @click="request(1)"> 前端发送 </a-button>
+          <a-button @click="request(1)"> http请求发送 </a-button>
           <a-button @click="request(2)"> 主进程发送 </a-button>
         </a-space>
       </div>
       <div>
-        <a-button @click="fetchOCR()">点击发送请求</a-button>
+        <a-button @click="fetchOCR()">http请求发送2</a-button>
         <div v-if="loading">加载中...</div>
         <div v-if="responseData">{{ responseData }}</div>
       </div>
@@ -100,5 +100,9 @@
   };
   </script>
   <style lang="less" scoped>
-
+    .container {
+        border: 2px solid rgb(0, 0, 0);
+        margin-bottom: 2px;  
+        padding: 2px;
+    }
   </style>

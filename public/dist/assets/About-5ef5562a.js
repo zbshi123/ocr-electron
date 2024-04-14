@@ -1,1 +1,0 @@
-import{_ as t,o as n,c as e,a,t as o}from"./index-47fece8e.js";const s=t({name:"About",data:()=>({title:"About Page",content:"This is the about page content."})},[["render",function(t,s,l,u,i,r){return n(),e("div",null,[a("h1",null,o(i.title),1),a("p",null,o(i.content),1)])}]]);export{s as default};

@@ -95,9 +95,9 @@ export default {
 
 <style scoped>
     .container {
-        border: 2px solid rgb(0, 0, 0);
-        margin-bottom: 2px;
-        padding: 2px;    
+      border: 2px solid rgb(0, 0, 0);
+      margin-bottom: 2px;
+      padding: 2px;    
     }
 
   .area1 {

@@ -3,6 +3,9 @@
 
         <dynamic-table :data="tableData"/>
         <textarea v-model="tableDataForTextArea"  rows="10"></textarea>
+        <div>
+        <a-button @click="fetchOCR()">请求get_table</a-button>
+      </div>
     </div>
   </template>
   
@@ -10,10 +13,12 @@
     textarea {
         width: 100%;
         resize: none;
+        border: 1px solid #000000;
     }
 </style>
 
-  <script>
+<script>
+import axios from 'axios';
 import DynamicTable from '../components/DynamicTable.vue'
   export default {
     components: {DynamicTable},
@@ -36,8 +41,29 @@ import DynamicTable from '../components/DynamicTable.vue'
             }
         }
     },
+    methods: {
+        async fetchOCR() {
+        try {
+            this.loading = true;
+            const testApi = this.serverUrl + '/api/get_table';
+            const response = await axios.get(testApi);
+            this.responseData = response.data;
+            console.log(this.responseData);
+            console.log(this.responseData.message);
+            var jsonObject = JSON.parse(this.responseData.message);
+            console.log(jsonObject);
+            this.tableData = jsonObject;
+        } catch (error) {
+            console.error('请求错误:', error);
+        } finally {
+            this.loading = false;
+        }
+      }    
+    },
     data() {
         return {
+            serverUrl: "http://127.0.0.1:7074",
+            responseData: "",
             tableData: {
                 "name": "demo",
                 "cells": [

@@ -87,9 +87,11 @@
       async fetchOCR() {
         try {
             this.loading = true;
-            const testApi = this.serverUrl + '/api/hello';
+            const testApi = this.serverUrl + '/api/get_table';
             const response = await axios.get(testApi);
             this.responseData = response.data;
+            console.log(this.responseData);
+            console.log(this.responseData.message);
         } catch (error) {
             console.error('请求错误:', error);
         } finally {

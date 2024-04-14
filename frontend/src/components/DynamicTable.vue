@@ -48,6 +48,7 @@ export default {
       const tableData = [];
       const rows = Math.max(...this.data.cells.map(cell => cell.bottom));
       const cols = Math.max(...this.data.cells.map(cell => cell.right));
+      const set = new Set(); // set用于检查每个单元格是否已经加入tableData
 
       for (let i = 0; i < rows; i++) {
         const rowData = [];
@@ -56,7 +57,11 @@ export default {
           if (cell) {
             const colspan = cell.right - cell.left;
             const rowspan = cell.bottom - cell.top;
-            rowData.push({ content: cell.content, colspan, rowspan });
+            const cell_str = JSON.stringify(cell)
+            if (!set.has(cell_str)) {
+              rowData.push({ content: cell.content, colspan, rowspan });
+              set.add(cell_str);
+            }
             j += colspan - 1;
           } else {
             rowData.push({ content: '', colspan: 1, rowspan: 1 });
@@ -74,13 +79,13 @@ export default {
 <style>
 table {
   border-collapse: collapse;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   width: 100%;
 }
 
 th, td {
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #000000;
   text-align: left;
 }
 

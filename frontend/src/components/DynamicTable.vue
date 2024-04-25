@@ -1,7 +1,9 @@
 <template>
   <div>
     <table>
-      <caption>档案</caption>
+      <!--
+      <caption>档案</caption>        
+      -->
       <tbody>
         <tr v-for="(row, rowIndex) in tableData" :key="rowIndex">
           <td
@@ -76,7 +78,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 table {
   border-collapse: collapse;
   margin-bottom: 10px;

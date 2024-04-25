@@ -7,6 +7,7 @@ const ipcApiRoute = {
   test: 'controller.example.test',
   hello: 'controller.example.hello',
   imgResolve: 'controller.imgResolve.imgResolve',
+  jsondbOperation: 'controller.framework.jsondbOperation',
 }
 
 export {

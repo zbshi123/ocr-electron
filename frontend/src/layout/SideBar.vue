@@ -1,6 +1,8 @@
 <template id="side">
   <div class="sidebar">
-    <router-link to="/">Home</router-link>
+    <router-link to="/upload">Upload</router-link>
+    <router-link to="/process">Process</router-link> 
+    <router-link to="/home">Home</router-link>
     <router-link to="/about">About</router-link>
     <router-link to="/test">Test</router-link>
     <!-- 添加其他导航链接 -->

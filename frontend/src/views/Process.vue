@@ -1,69 +1,42 @@
 <template>
     <div>
-        <dynamic-table :data="tableData"/>
-        <textarea v-model="tableDataForTextArea"  rows="10"></textarea>
+        <!--
         <div>
-        <a-button @click="fetchOCR()">请求get_table</a-button>
-      </div>
+            <select v-model="selectedImageUrl">
+            <option value="-1">请选择图片</option>
+            <option v-for="(item, index) in image_data" :key="index" :value="item.image_url">
+                {{ item.tag }}
+            </option>
+            </select>
+            <img :src="selectedImageUrl" alt="Image" style="width: 200px; height: 200px;">
+        </div>
+        -->
+        <radio />
+        <br>
+        <dynamic-table :data="tableData"/>
+
+        <event-bus-test />
     </div>
   </template>
   
-<style lang="less" scoped>
-    textarea {
-        width: 100%;
-        resize: none;
-        border: 1px solid #000000;
-    }
-</style>
-
 <script>
-import axios from 'axios';
-import DynamicTable from '../components/DynamicTable.vue'
+import ImageTable from '../components/ImageTable.vue';
+import DynamicTable from '../components/DynamicTable.vue';
+import { ipcApiRoute } from '../api/main';
+import { ipc } from '../utils/ipcRenderer';
+import Radio from '../components/Radio.vue';
+import EventBusTest from '../components/EventBusTest.vue';
+
 export default {
-    components: {DynamicTable},
-    name: 'Test',
-    computed: {
-        tableDataForTextArea: {
-            get() {
-                return JSON.stringify(this.tableData);
-            },
-            set(value) {
-                const jsonString = value;
-                try {
-                    const obj = JSON.parse(jsonString);
-                    this.tableData = obj;
-                } catch {
-                    const obj = null
-                    this.$message.error("json格式错误");
-                }
-                console.log(obj);
-            }
-        }
-    },
-    methods: {
-        async fetchOCR() {
-        try {
-            this.loading = true;
-            const testApi = this.serverUrl + '/api/get_table';
-            const response = await axios.get(testApi);
-            this.responseData = response.data;
-            console.log(this.responseData);
-            console.log(this.responseData.message);
-            var jsonObject = JSON.parse(this.responseData.message);
-            console.log(jsonObject);
-            this.tableData = jsonObject;
-        } catch (error) {
-            console.error('请求错误:', error);
-        } finally {
-            this.loading = false;
-        }
-      }    
-    },
+    components: { ImageTable, DynamicTable, Radio, EventBusTest },
+    name: 'Processing',
     data() {
-        return {
-            serverUrl: "http://127.0.0.1:7074",
-            responseData: "",
-            tableData: {
+      return {
+        image_data: [],
+        selectedImageUrl: "",
+        selectedOption: "",
+        image_tag: "fdfsfd",
+        tableData: {
                 "name": "demo",
                 "cells": [
                     {
@@ -195,7 +168,26 @@ export default {
                     
                 ]
             }
-        };
+      }
+    },
+    mounted() {
+        console.log("mounted: 组件已挂载");
+        this.dbGetImages();
+        console.log(this.image_data);
+    },
+    methods: {
+        dbGetImages() {
+        const params = {
+          action: "getAllImageData"
+        }
+        // 调用json数据库操作
+        ipc.invoke(ipcApiRoute.jsondbOperation, params).then(res => {
+          console.log('res:', res);
+          this.image_data = res.all_list;
+          // this.$message.success(`success`);
+          console.log(this.image_data);
+        }) 
+      },
     }
   }
-  </script>
+</script>

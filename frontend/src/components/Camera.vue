@@ -71,7 +71,7 @@
   
   <style scoped>
   .camera {
-    height: 100vh;
+
   }
   
   .display-area {
@@ -80,13 +80,13 @@
 
   .video-area {
     flex: 1;
-    height: 300px;
+    height: 100px;
     background-color: #a46565;
   }
 
   .img-area {
     flex: 1;
-    height: 300px;
+    height: 100px;
     background-color: #aec1a1;
   }
 

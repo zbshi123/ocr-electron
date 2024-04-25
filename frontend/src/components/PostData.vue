@@ -40,7 +40,7 @@
   };
   </script>
   
-  <style>
+  <style scoped>
   .container {
         border: 2px solid rgb(0, 0, 0);
         margin-bottom: 2px;

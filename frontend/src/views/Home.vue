@@ -14,49 +14,18 @@
       </div>
       
       <camera/>
-      
     </div>
     
 </template>
-
-<style scoped>
-  .area1 {
-    height: 100%;
-    width: 100%;
-    background-color: #bd1818;;
-    display: flex;
-    align-items: center; /* 在交叉轴上居中对齐 */
-    justify-content: space-between; /* 在主轴上均匀分布，首尾不留间隔 */
-  }
-
-  .area2-left {
-    flex:1; /*flex指定元素在flexbox中的伸缩比例 */
-    height:300px;
-    background-color: #5f719e;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .area2-right {
-    flex: 1;
-    height:300px;
-    background-color: aquamarine;
-  }
-
-  img {
-    max-width: 300px;
-    max-height: 300px;
-  }
-</style>
   
 <script>
 import { ipcApiRoute } from '../api/main';
 import Camera from '../components/Camera.vue';
+import JsonDb from '../components/JsonDb.vue';
 import { ipc } from '../utils/ipcRenderer';
 
 export default {
-  components: { Camera },
+  components: { Camera, JsonDb },
   name: 'Home',
   data() {
     return {
@@ -96,3 +65,33 @@ export default {
 }
 </script>
   
+<style scoped>
+  .area1 {
+    height: 100%;
+    width: 100%;
+    background-color: #bd1818;;
+    display: flex;
+    align-items: center; /* 在交叉轴上居中对齐 */
+    justify-content: space-between; /* 在主轴上均匀分布，首尾不留间隔 */
+  }
+
+  .area2-left {
+    flex:1; /*flex指定元素在flexbox中的伸缩比例 */
+    height:300px;
+    background-color: #5f719e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .area2-right {
+    flex: 1;
+    height:300px;
+    background-color: aquamarine;
+  }
+
+  img {
+    max-width: 300px;
+    max-height: 300px;
+  }
+</style>

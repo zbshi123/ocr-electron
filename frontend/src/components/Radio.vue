@@ -55,7 +55,7 @@ export default {
             if (this.image_data.length <= 0) {
                 return ""
             }
-
+            this.emit(this.image_data[this.selected_image_index].image_url);
             return this.image_data[this.selected_image_index].image_url;
         }
     },
@@ -72,9 +72,9 @@ export default {
           console.log(this.image_data);
         }) 
       },
-      emit() {
-        const data = "事件总线发送信息"
-        eventBus.emit('updateCount', data)
+      emit(data) {
+        console.log("触发emit: " + data);
+        eventBus.emit('Radio.vue', data);
       }
     }
   }

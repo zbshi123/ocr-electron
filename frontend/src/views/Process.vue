@@ -18,7 +18,7 @@
   </template>
   
 <script>
-import ImageTable from '../components/ImageTable.vue';
+import ImageTable from '../components/discarded/ImageTable.vue';
 import DynamicTable from '../components/DynamicTable.vue';
 import { ipcApiRoute } from '../api/main';
 import { ipc } from '../utils/ipcRenderer';

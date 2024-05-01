@@ -1,18 +1,5 @@
 <template>
     <div>
-      <input type="file" @change="handleFileUpload">
-      <button @click="uploadFile">上传图片</button>
-      <div class="area1">
-        <div class="area2-left">
-          <!-- 展示上传的图片 -->
-          <img v-if="imageUrl" :src="imageUrl" alt="Uploaded Image">
-
-        </div>
-        <div class="area2-right">
-          fds
-        </div>
-      </div>
-      
       <camera/>
     </div>
     
@@ -21,16 +8,14 @@
 <script>
 import { ipcApiRoute } from '../api/main';
 import Camera from '../components/Camera.vue';
-import JsonDb from '../components/JsonDb.vue';
+import JsonDb from '../components/discarded/JsonDb.vue';
 import { ipc } from '../utils/ipcRenderer';
 
 export default {
   components: { Camera, JsonDb },
-  name: 'Home',
+  name: 'Test1',
   data() {
     return {
-      title: 'Home Page',
-      content: 'This is the home page content.',
       file: null, // 存储上传的文件
       imageUrl: null // 存储上传的图片 URL
     }

@@ -14,15 +14,10 @@ class ImgResolveController extends Controller {
     super(ctx);
   }
 
-
   /**
    * 所有方法接收两个参数
    * @param args 前端传的参数
    * @param event - ipc通信时才有值。详情见：控制器文档
-   */
-
-  /**
-   * test
    */
   async imgResolve (args, event) {
     const result = await Services.get('example').test('electron');

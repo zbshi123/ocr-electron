@@ -14,13 +14,8 @@ class FrameworkController extends Controller {
   }
 
   /**
-   * 所有方法接收两个参数
-   * @param args 前端传的参数
-   * @param event - ipc通信时才有值。详情见：控制器文档
-   */
-
-  /**
    * json数据库操作
+   * @param args 前端传的参数
    */   
   async jsondbOperation(args) {
     //const { action, info, delete_name, update_name, update_age, search_age, data_dir } = args;

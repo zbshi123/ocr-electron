@@ -13,15 +13,14 @@
       </div>
       <div class="area2">
         <div v-if="loading">发送中...</div>
-        <a-textarea v-model:value="response" :auto-size="{ minRows: 8, maxRows: 8 }"></a-textarea>
       </div>
     </div>
     
 </template>
 
 <script>
-import { ipcApiRoute } from '../api/main';
-import { ipc } from '../utils/ipcRenderer';
+import { ipcApiRoute } from '../../api/main';
+import { ipc } from '../../utils/ipcRenderer';
 import axios from 'axios';
 
 export default {

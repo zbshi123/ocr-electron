@@ -31,6 +31,5 @@ body, html {
   display: flex;
   width: 100%;
   min-height: 100%;
-  background-color: #ffffff;
 }
 </style>

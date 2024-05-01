@@ -8,6 +8,7 @@ const ipcApiRoute = {
   hello: 'controller.example.hello',
   imgResolve: 'controller.imgResolve.imgResolve',
   jsondbOperation: 'controller.framework.jsondbOperation',
+  generateXLSX: 'controller.xlsxController.generateXLSX'
 }
 
 export {

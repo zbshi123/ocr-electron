@@ -45,10 +45,11 @@
     methods: {
       deleteImage(index) {
         // this.image_data.splice(index, 1);
-        const delete_tag = this.image_data[index].tag;
-        this.dbDeleteImage(delete_tag);
+        // const delete_tag = this.image_data[index].tag;
+        const id = this.image_data[index].id;
+        this.dbDeleteImage(id);
       },
-      dbGetImages() {
+      jsonDbGetImages() {
         const params = {
           action: "getAllImageData"
         }
@@ -60,7 +61,7 @@
           console.log(this.image_data);
         }) 
       },
-      dbDeleteImage(delete_tag) {
+      jsonDbDeleteImage(delete_tag) {
         const params = {
           action: "delByTag",
           delete_tag: delete_tag
@@ -76,7 +77,35 @@
         } catch (error) {
             console.log("删除错误" + error);
         }
-        
+      },
+      dbGetImages() {
+        const params = {
+          function_name: "getAllImages"
+        }
+        // 调用sqlite数据库操作
+        ipc.invoke(ipcApiRoute.sqlitedbOperation, params).then(res => {
+          console.log('res:', res);
+          this.image_data = res.all_list;
+          // this.$message.success(`success`);
+          console.log(this.image_data);
+        }) 
+      },
+      dbDeleteImage(id) {
+        const params = {
+          function_name: "deleteImageById",
+          id: id
+        }
+        // 调用json数据库操作
+        try {
+          ipc.invoke(ipcApiRoute.sqlitedbOperation, params).then(res => {
+            console.log('res:', res);
+            this.image_data = res.all_list;
+            this.$message.success(`success`);
+            console.log(this.image_data);
+          })   
+        } catch (error) {
+            console.log("删除错误" + error);
+        }
       }
     },
   };

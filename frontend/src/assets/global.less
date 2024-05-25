@@ -5,63 +5,11 @@
   // text-align: center;
   // color: #2c3e50;
   height: 100%;
+  overflow: overlay; // 内容溢出时出现滚动条，滚动条悬浮，不占用空间
 }
-
-/* 按钮 */
-button {
-  color: #000;
-  background-color: #ffffff;
-  border: 1px solid rgb(0, 0, 0);
-  border-radius: 2px;
-  height: 25px;
-  transition: 0.5s;
-}
-
-button:hover {
-  color: #ffffff;
-  background-color: #344E41;
-  transition: 0.5s;
-}
-
-button:active {
-  color: #ffffff;
-  background-color: #da9f2a;
-  transition: 0.2s;
-}
-
-
-
-/* 上传文件 */
-.label-button {
-  display: inline-block;
-  color: #000;
-  background-color: #ffffff;
-  border: 1px solid rgb(0, 0, 0);
-  border-radius: 2px;
-  height: 25px;  
-  // 这几组padding使得样式与button一致
-  padding-left: 6px;
-  padding-right: 6px;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  transition: 0.5s;
-}
-
-.label-button:hover {
-  color: #ffffff;
-  background-color: #344E41;
-  transition: 0.5s;
-}
-
-.label-button:active {
-  color: #ffffff;
-  background-color: #da9f2a;
-  transition: 0.5s;
-}
-
 
 /* 滚动条 */
-::-webkit-scrollbar{width:8px;height:4px}
+::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-button{width:10px;height:0}
 ::-webkit-scrollbar-track{background:0 0}
 ::-webkit-scrollbar-thumb{background:#88a185;-webkit-transition:.3s;transition:.3s}

@@ -22,14 +22,9 @@ const constantRouterMap = [
     component: () => import('@/views/Upload.vue')
   },
   {
-    path: '/test1',
-    name: 'Test1',
-    component: () => import('@/views/Test1.vue')
-  },
-  {
-    path: '/test2',
-    name: 'Test2',
-    component: () => import('@/views/Test2.vue')
+    path: '/settings',
+    name: 'Settings',
+    component: () => import('@/views/Settings.vue')
   },
   {
     path: '/test',
@@ -45,6 +40,11 @@ const constantRouterMap = [
     path: '/upload',
     name: 'Upload',
     component: () => import('@/views/Upload.vue')
+  },
+  {
+    path: '/tables',
+    name: 'Tables',
+    component: () => import('@/views/Tables.vue')
   },
 ]
 

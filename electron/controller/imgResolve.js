@@ -20,19 +20,15 @@ class ImgResolveController extends Controller {
    * @param event - ipc通信时才有值。详情见：控制器文档
    */
   async imgResolve (args, event) {
-    const result = await Services.get('example').test('electron');
     Log.info('service result:', result);
     Log.info('service args:', args);
     //Log.info('service event:', event);
 
-    this.binarizeImage(args[0]).then(result => {
-      Log.info('processedImgUrl' , result);
-    }).catch (error => {
-      Log.info('processedImgUrl failed.', error);
-    });
-
     return 'imgResolve';
   }
+
+  
+
 }
 
 ImgResolveController.toString = () => '[class ImgResolveController]';

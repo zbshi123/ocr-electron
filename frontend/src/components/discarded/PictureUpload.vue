@@ -28,11 +28,11 @@ export default {
   name: 'PictureUpload',
   data() {
     return {
-        file: null, // 存储上传的文件
-        imageUrl: null, // 存储上传的图片 URL
-        processedImageUrl: null, // 存储处理后的图片
-        loading: false,
-        response: null,
+      file: null, // 存储上传的文件
+      imageUrl: null, // 存储上传的图片 URL
+      processedImageUrl: null, // 存储处理后的图片
+      loading: false,
+      response: null,
     }
   },
   methods: {

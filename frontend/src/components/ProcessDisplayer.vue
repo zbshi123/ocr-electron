@@ -3,46 +3,59 @@
         <div class="button-area">
             <button @click="postImageUrl()">发送图像</button>  
             <button @click="this.enableEdit = !this.enableEdit">{{ enableEdit? "关闭表格编辑" : "启用表格编辑" }}</button>
-            <button @click="generateXLSX()">生成表格文件</button>
+            <!--
+            <button @click="generateXLSX()">生成表格文件</button>                
+            -->
+            <button @click="saveTableData()">保存表格</button>
         </div>
-        <dynamic-table :data="tableData"/>
-        <textarea v-if="false" v-model="tableDataForTextArea"  rows="10"></textarea>
-        <div class="edit-area" v-if="enableEdit">
-            <table>
-                <tbody>
-                <tr v-for="(item, index) in tableData.cells" :key="index">
-                    <td>
-                        单元格内容：
-                        <input type="text" v-model="tableData.cells[index].content">
-                    </td>                   
-                    <td>  
-                        <tr>
-                            <td>
-                                左：
-                                <input type="text" v-model="tableData.cells[index].left">
-                            </td>
-                            <td>
-                                右：
-                                <input type="text" v-model="tableData.cells[index].right">    
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                上:
-                                <input type="text" v-model="tableData.cells[index].top">
-                            </td>
-                            <td>
-                                下:
-                                <input type="text" v-model="tableData.cells[index].bottom">  
-                            </td>
-                        </tr>
-                    </td>
-                </tr>
-
-
-                </tbody>
-            </table>
+        <div class="display-area">
+            <label for="">表格名称:</label>
+            <br>
+            <input class="wide-input" type="text" v-model="tableData.name">
+            <br>
+            <label for="">表格描述:</label>
+            <textarea v-model="tableData.description"  rows="3"></textarea>
+            <dynamic-table :data="tableData"/>
+            
+            <div class="edit-area" v-if="enableEdit">
+                <table>
+                    <tbody>
+                    <tr v-for="(item, index) in tableData.cells" :key="index">
+                        <td>
+                            单元格内容：
+                            <input type="text" v-model="tableData.cells[index].content">
+                        </td>                   
+                        <td>  
+                            <tr>
+                                <td>
+                                    左:
+                                    <input type="text" v-model="tableData.cells[index].left">
+                                </td>
+                                <td>
+                                    右:
+                                    <input type="text" v-model="tableData.cells[index].right">    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    上:
+                                    <input type="text" v-model="tableData.cells[index].top">
+                                </td>
+                                <td>
+                                    下:
+                                    <input type="text" v-model="tableData.cells[index].bottom">  
+                                </td>
+                            </tr>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="preprocess-images-area">
+                <preprocess-images></preprocess-images>
+            </div>
         </div>
+
     </div>
 </template>
   
@@ -52,14 +65,15 @@ import DynamicTable from './DynamicTable.vue';
 import {eventBus} from '../utils/eventBus';
 import { ipcApiRoute } from '../api/main';
 import { ipc } from '../utils/ipcRenderer';
+import PreprocessImages from './PreprocessImages.vue';
 
 export default {
-    components: {DynamicTable},
+    components: {DynamicTable, PreprocessImages},
     name: 'TableDisplayer',
     mounted() {
-        // 监听radio组件的事件
-        eventBus.on("Radio.vue", (data) => {
-            console.log("监听on: " + data);
+        // 监听radio-vertical组件的事件
+        eventBus.on("RadioVertical.vue", (data) => {
+            // console.log("监听on: " + data);
             this.image_url = data;
         });
     },
@@ -125,8 +139,20 @@ export default {
             // 通过ipc调用electron业务层
             ipc.invoke(ipcApiRoute.generateXLSX, params).then(res => {
                 console.log('res:', res);
-            })
-        }, 
+            });
+        },
+        saveTableData() {
+            // 保存tableData到json数据库中
+            const tableData = JSON.stringify(this.tableData);
+            const params = {
+                function_name: "addForm",
+                tableData: tableData
+            }
+            ipc.invoke(ipcApiRoute.formDbOperation, params).then(res => {
+                console.log("saveTableData(): ", res);
+                this.$message.success("保存成功");
+            });
+        } 
     },
     data() {
         return {
@@ -135,7 +161,8 @@ export default {
             enableEdit: false, // 是否启用表格编辑
             image_url: "",
             tableData: {
-                "name": "demo",
+                "name": "示例表格",
+                "description": "关于表格的描述",
                 "cells": [
                     {
                         "content": "全宗号",
@@ -278,33 +305,54 @@ export default {
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   background-color: #ffffff;
+  height: 100%;
+  width: 100%;;
 }
 
-textarea {
-    width: 100%;
-    resize: none;
-    border: 1px solid #000000;
-    border-radius: 5px;
+.button-area {
+    display: flex;
+    height: 30px;
+    overflow: scroll;
 }
+
+.display-area {
+    height: calc(100% - 30px);
+    overflow-y: overlay;
+}
+
 
 .edit-area {
     border: 2px solid #00000050;
     height: 200px;
+    width: 100%;
     padding: 5px;
-    overflow-y: auto;
+    overflow-y: overlay;
+    overflow-x: overlay;
+}
+
+
+
+textarea {
+    width: 100%;
+    resize: none;
+    border: 1px solid rgba(0, 0, 0, 0.24);
+    border-radius: 5px;
+}
+
+.wide-input {
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.24);
 }
 
 table {
-    width: 100%;
     border-collapse: collapse;
 }
 
 th, td {
     border: 1px solid #ddd;
     background-color: #ffffff;
-    padding: 8px;
+    padding: 4px;
     text-align: center;
-    width: 100%;
 }
 
 th {
@@ -312,17 +360,12 @@ th {
 }
 
 input {
+    width: 50%;
     background-color: #ffffff;
     border: 1px solid black;
     border-radius: 3px;
     transition: 0.2s;
 }
-
-input:hover {
-    background-color: rgb(205, 205, 167);
-    transition: 0.2s;
-}
-
 
 .button-area {
     margin-bottom: 5px;
@@ -332,3 +375,4 @@ input:hover {
     margin-right: 10px;
 }
 </style>
+

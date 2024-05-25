@@ -1,9 +1,6 @@
 <template>
   <div>
     <table>
-      <!--
-      <caption>档案</caption>        
-      -->
       <tbody>
         <tr v-for="(row, rowIndex) in tableData" :key="rowIndex">
           <td
@@ -96,7 +93,11 @@ th {
 }
 
 tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #e3e5d3;
+}
+
+tr:nth-child(odd) {
+  background-color: #cddecd;
 }
 
 caption {

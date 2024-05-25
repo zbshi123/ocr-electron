@@ -1,6 +1,6 @@
 {
-  "productName": "ee",
-  "appId": "com.electron.ee",
+  "productName": "ocr",
+  "appId": "com.electron.ocr",
   "copyright": "© zbshi Technology Co., Ltd.",
   "directories": {
     "output": "out"
@@ -49,6 +49,7 @@
     "target": [
       "deb"
     ],
+    "maintainer":"zbshi256@163.com",
     "category": "Utility"
   }
 }

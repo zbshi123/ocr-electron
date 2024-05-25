@@ -1,1 +1,0 @@
-const e={test:"controller.example.test",hello:"controller.example.hello",imgResolve:"controller.imgResolve.imgResolve"},o=(window.require&&window.require("electron")||window.electron||{}).ipcRenderer||void 0;export{e as a,o as i};

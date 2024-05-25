@@ -78,7 +78,7 @@ export default {
           window.location.reload();
         }
     },
-    dbAddImage(tag, url) {
+    jsonDbAddImage(tag, url) {
       const params = {
         action: "add",
         image: {
@@ -88,6 +88,22 @@ export default {
       }
       // 调用json数据库操作
       ipc.invoke(ipcApiRoute.jsondbOperation, params).then(res => {
+        console.log('res:', res);
+        this.all_list = res.all_list;
+        this.$message.success(`success`);
+        console.log(this.all_list);
+      }) 
+    },
+    dbAddImage(description, url) {
+      const params = {
+        function_name: "addImage",
+        image: {
+          description: description,
+          image_url: url
+        }
+      }
+      // 调用sqlite数据库操作
+      ipc.invoke(ipcApiRoute.sqlitedbOperation, params).then(res => {
         console.log('res:', res);
         this.all_list = res.all_list;
         this.$message.success(`success`);

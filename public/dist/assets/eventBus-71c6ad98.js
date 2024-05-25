@@ -1,0 +1,1 @@
+const s=new class{constructor(){this.events={}}on(s,t){this.events[s]||(this.events[s]=[]),this.events[s].push(t)}emit(s,t){const e=this.events[s];e&&e.forEach((s=>{s(t)}))}off(s,t){const e=this.events[s];e&&(this.events[s]=e.filter((s=>s!==t)))}};export{s as e};

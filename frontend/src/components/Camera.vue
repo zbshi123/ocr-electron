@@ -1,27 +1,27 @@
 <template>
-    <div class="container">
-      <div class="area1">
-        <div class="button-area">
-          <button id="button1" @click="toggleCamera">{{ isCameraOn ? '关闭摄像' : '开启摄像' }}</button>
-          <button id="button2" @click="takePicture" :disabled="!isCameraOn">截取图片</button>
-          <button id="button3" @click="uploadFile">上传图片</button>
-  
-        </div>
-        <div class="video-area">
-          <video ref="video" autoplay></video>
-        </div>        
+  <div class="container">
+    <div class="area1">
+      <div class="button-area">
+        <button id="button1" @click="toggleCamera">{{ isCameraOn ? '关闭相机' : '开启相机' }}</button>
+        <button id="button2" @click="takePicture" :disabled="!isCameraOn">截取照片</button>
+        <button id="button3" @click="uploadFile">上传照片</button>
+
       </div>
-      <div class="line"></div>
-      <div class="area2">
-        <div v-if="thumbnails.length > 0">
-          <div v-for="(thumbnail, index) in thumbnails" :key="index" class="thumbnail">
-            <img :src="thumbnail.url" :alt="'Thumbnail ' + (index + 1)">
-            <button @click="removeThumbnail(index)">取消</button> 
-          </div>
+      <div class="video-area">
+        <video ref="video" autoplay></video>
+      </div>        
+    </div>
+    <div class="line"></div>
+    <div class="area2">
+      <div v-if="thumbnails.length > 0">
+        <div v-for="(thumbnail, index) in thumbnails" :key="index" class="thumbnail">
+          <img :src="thumbnail.url" :alt="'Thumbnail ' + (index + 1)">
+          <button @click="removeThumbnail(index)">取消</button> 
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
 <script>
 import { ipcApiRoute } from '../api/main';
@@ -87,7 +87,7 @@ import { ipc } from '../utils/ipcRenderer';
 
         return tag;
       },
-      dbAddImage(tag, url) {
+      jsonDbAddImage(tag, url) {
         const params = {
           action: "add",
           image: {
@@ -97,6 +97,22 @@ import { ipc } from '../utils/ipcRenderer';
         }
         // 调用json数据库操作
         ipc.invoke(ipcApiRoute.jsondbOperation, params).then(res => {
+          console.log('res:', res);
+          this.all_list = res.all_list;
+          this.$message.success(`success`);
+          console.log(this.all_list);
+        }) 
+      },
+      dbAddImage(description, url) {
+        const params = {
+          function_name: "addImage",
+          image: {
+            description: description,
+            image_url: url
+          }
+        }
+        // 调用sqlite数据库操作
+        ipc.invoke(ipcApiRoute.sqlitedbOperation, params).then(res => {
           console.log('res:', res);
           this.all_list = res.all_list;
           this.$message.success(`success`);

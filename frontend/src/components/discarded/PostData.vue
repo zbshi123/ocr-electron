@@ -10,8 +10,8 @@
 <script>
 import { ref } from 'vue';
 import axios from 'axios';
-import { ipcApiRoute } from '../api/main';
-import { ipc } from '../utils/ipcRenderer';
+import { ipcApiRoute } from '../../api/main';
+import { ipc } from '../../utils/ipcRenderer';
   
 export default {
   name: 'PostData',

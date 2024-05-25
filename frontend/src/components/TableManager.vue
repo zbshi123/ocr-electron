@@ -1,7 +1,6 @@
 <template>
     <div class="container">
         <div class="button-area">
-            <button @click="postImageUrl()">发送图像</button>  
             <button @click="this.enableEdit = !this.enableEdit">{{ enableEdit? "关闭表格编辑" : "启用表格编辑" }}</button>
             <button @click="generateXLSX()">生成表格文件</button>
         </div>
@@ -278,6 +277,7 @@ export default {
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   background-color: #ffffff;
+  width: 100%;
 }
 
 textarea {

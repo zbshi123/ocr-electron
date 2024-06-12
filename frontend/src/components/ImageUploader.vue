@@ -6,15 +6,17 @@
         使用label标签代替input标签，实现样式替换
       -->    
       <label for="submit">
-
          <div class="label-button">选择文件</div>    
       </label>
       <input id ="submit" style="display: none" type="file" @change="handleFileChange" multiple accept="image/*">
       <button @click="uploadFile">上传图片</button>
     </div>
     <hr class="hr">
-    <!-- 显示缩略图的容器 -->
-    <div class="area2">
+    <!-- 显示缩略图的容器 支持拖拽-->
+    <div class="area2" @dragover.prevent @drop="onDrop">
+      <div class="prompt-box" v-if="thumbnails.length <= 0">
+        <p style="color: gray;">拖拽上传</p>
+      </div>
       <div v-if="thumbnails.length > 0">
       <div v-for="(thumbnail, index) in thumbnails" :key="index" class="thumbnail">
         <img :src="thumbnail.url" :alt="'Thumbnail ' + (index + 1)">
@@ -39,17 +41,22 @@ export default {
   methods: {
     handleFileChange(event) {
       const files = event.target.files;
+      this.processFiles(files);
+    },
+    onDrop(event) {
+      event.preventDefault();
+      const files = event.dataTransfer.files;
+      this.processFiles(files);
+    },
+    processFiles(files) {
       if (!files) return;
-
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         if (!file.type.startsWith('image/')) continue;
-
         const reader = new FileReader();
         reader.onload = (e) => {
-          //this.thumbnails.value.push({ url: e.target.result, file });
           this.thumbnails.push({ url: e.target.result, file });
-          console.log(this.thumbnails);
+          // console.log(this.thumbnails);
         };
         reader.readAsDataURL(file);
       }
@@ -153,6 +160,14 @@ export default {
   height: 120px; /* 设置表格容器的最大高度 */
   overflow-y: auto; /* 当内容超出容器高度时显示滚动条 */
   padding: 2px;
+}
+
+.prompt-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 

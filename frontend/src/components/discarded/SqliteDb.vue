@@ -204,11 +204,11 @@ export default {
         }) 
         },
         selectDir() {
-        ipc.invoke(ipcApiRoute.selectFolder, '').then(r => {
-            this.data_dir = r;
-            // 修改数据目录
-            this.modifyDataDir(r);
-        })
+          ipc.invoke(ipcApiRoute.selectFolder, '').then(r => {
+              this.data_dir = r;
+              // 修改数据目录
+              this.modifyDataDir(r);
+          })
         },
         openDir() {
         console.log('dd:', this.data_dir);

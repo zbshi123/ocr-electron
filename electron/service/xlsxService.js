@@ -3,6 +3,8 @@
 const { Service } = require('ee-core');
 const Log = require('ee-core/log');
 const XLSX = require('xlsx');
+const Services = require('ee-core/services');
+const path = require('path');
 
 /**
  * 
@@ -32,7 +34,8 @@ class XlsxService extends Service {
     async generateXLSX(args) {
         let ret = {
             status:'ok',
-            result: "generateXLSX"
+            result: "generateXLSX",
+            message: ""
         }
 
         const tableData1 = {
@@ -91,9 +94,14 @@ class XlsxService extends Service {
         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
 
         // 将工作簿保存为 Excel 文件
-        const excelFilePath = `${id}.xlsx`;
+        const itemName = "xlsx-save-directory";
+        const savePath =  await Services.get('database.configdb').getConfigItemContent(itemName);
+        const excelFileName = `${id}.xlsx`;
+        const excelFilePath = path.join(savePath, excelFileName);
+        console.log(excelFilePath);
         XLSX.writeFile(workbook, excelFilePath, { bookType: 'xlsx', bookSST: false, type: 'binary', encoding: 'utf-8' });
 
+        ret.message = `文件已保存至 ${excelFilePath}`;
         return ret;
     }
 }

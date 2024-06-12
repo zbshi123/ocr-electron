@@ -97,6 +97,58 @@ class FormDbService extends Service {
     return data;
   }
 
+  /*
+  * all Some data
+  */
+   async getSomeForms(index, size) {
+    const key = this.dbKey.form_data;
+    if (!this.formDb.db.has(key).value()) {
+      this.formDb.db.set(key, []).write();
+    }
+    const data = this.formDb.db
+    .get(key)
+    .value();
+
+    let result_data = [];
+
+    if (_.isEmpty(data)) {
+      return result_data;
+    }
+
+    result_data = this.sliceArray(data, index, size);
+
+    return result_data;
+  }
+
+
+  async getFormsNum() {
+    const key = this.dbKey.form_data;
+    if (!this.formDb.db.has(key).value()) {
+      this.formDb.db.set(key, []).write();
+    }
+    const data = this.formDb.db
+    .get(key)
+    .value();
+
+    return data.length;
+  }
+
+  /*
+  * helper method
+  */
+  sliceArray(array, index, size) {
+    if (index < 0 || size <= 0 || index > array.length - 1) {
+      console.error("Invalid index or size");
+      return [];
+    }
+
+    if (index + size > array.length) {
+      return array.slice(index);
+    }
+  
+    return array.slice(index, index + size);
+  }
+
 
 
   /*
@@ -208,7 +260,11 @@ class FormDbService extends Service {
     this.demoDB = Storage.connection(dbFile);    
 
     return;
-  }  
+  }
+  
+  async test() {
+    console.log("test");
+  }
 }
 
 FormDbService.toString = () => '[class FormDbService]';

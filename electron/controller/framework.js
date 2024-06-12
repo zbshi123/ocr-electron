@@ -62,30 +62,74 @@ class FrameworkController extends Controller {
    * @param args 前端传的参数
    */   
     async formDbOperation(args) {
-      const { function_name, id, tableData } = args;
+      const { function_name, id, tableData, index, size } = args;
   
       const data = {
         function_name: function_name,
         result: null,
+        result_list: [],
         all_list: []
       };
       
       switch (function_name) {
-        case 'addForm' :
+        case 'addForm':
           data.result = await Services.get('database.formdb').addForm(tableData);
           break;
-        case 'delFormById' :
+        case 'delFormById':
           data.result = await Services.get('database.formdb').delFormById(id);
           break;
-        case 'updateFormById' :
+        case 'updateFormById':
           data.result = await Services.get('database.formdb').updateFormById(id, tableData);
           break;
-        case 'getAllForms' :
+        case 'getAllForms':
           data.result = await Services.get('database.formdb').getAllForms();
-          break;     
+          break;
+        case 'getSomeForms':
+          data.result_list = await Services.get('database.formdb').getSomeForms(index, size);
+        case 'getFormsNum':
+          data.result = await Services.get('database.formdb').getFormsNum();
       }
   
       data.all_list = await Services.get('database.formdb').getAllForms();
+  
+      return data;
+    }
+
+
+        /**
+   * json数据库操作
+   * @param args 前端传的参数
+   */   
+    async formSqliteDbOperation(args) {
+      const { function_name, form_id, tableData, index, size } = args;
+  
+      const data = {
+        function_name: function_name,
+        result: null,
+        result_list: [],
+        all_list: []
+      };
+      
+      switch (function_name) {
+        case 'addForm':
+          data.result = await Services.get('database.formSqliteDb').addForm(tableData);
+          break;
+        case 'delFormById':
+          data.result = await Services.get('database.formSqliteDb').delFormByFormId(form_id);
+          break;
+        case 'updateFormById':
+          data.result = await Services.get('database.formSqliteDb').updateFormByFormId(form_id, tableData);
+          break;
+        case 'getAllForms':
+          data.result_list = await Services.get('database.formSqliteDb').getAllForms();
+          break;
+        case 'getSomeForms':
+          data.result_list = await Services.get('database.formSqliteDb').getSomeForms(index, size);
+        case 'getFormsNum':
+          data.result = await Services.get('database.formSqliteDb').getFormsNum();
+      }
+  
+      // data.all_list = await Services.get('database.formSqliteDb').getAllForms();
   
       return data;
     }
@@ -115,10 +159,10 @@ class FrameworkController extends Controller {
 
     switch (function_name) {
       case 'addImage' :
-        data.result = await Services.get('database.sqlitedb').addImage(image);;
+        data.result = await Services.get('database.sqlitedb').addImage(image);
         break;
       case 'deleteImageById' :
-        data.result = await Services.get('database.sqlitedb').deleteImageById(id);;
+        data.result = await Services.get('database.sqlitedb').deleteImageById(id);
         break;
       case 'getImageById' :
         data.result = await Services.get('database.sqlitedb').getImageById(id);

@@ -32,4 +32,4 @@ class XlsxController extends Controller {
 }
 
 XlsxController.toString = () => '[class XlsxController]';
-module.exports = XlsxController;  
+module.exports = XlsxController;

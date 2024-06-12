@@ -107,7 +107,7 @@ class SqlitedbService extends Service {
     console.log("getImageById() start!")
     await this.checkAndCreateImageTable();
     const table = "image_table";
-    const sql = `SELECT * FROM ${table} WHERE age = ?`;
+    const sql = `SELECT * FROM ${table} WHERE id = ?`;
 
     const select_image = this.sqliteDB.db.prepare(sql);
     const images = select_image.all(id);
@@ -120,7 +120,6 @@ class SqlitedbService extends Service {
   * 查询图像url (sqlite)
   */
   async getAllImages() {
-    //console.log("select :", {age});
     console.log("getAllImages() start!")
     await this.checkAndCreateImageTable();
     const table = "image_table";

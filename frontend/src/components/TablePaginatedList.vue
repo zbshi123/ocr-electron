@@ -54,8 +54,9 @@
             </div>
         </div>
         <div class="button-area">
-            <button @click="previousPage" :disabled="currentPage === 1">上一页</button>
-            <button @click="nextPage" :disabled="currentPage === totalPages">下一页</button>            
+            <button @click="previousPage()">上一页</button>
+            <button @click="nextPage()">下一页</button>
+            页码：{{ currentPage }} / {{ totalPages }}            
         </div>
         <div class="table-area">
             <table>
@@ -63,16 +64,18 @@
                     <th>序号</th>
                     <th>名称</th>
                     <th>描述</th>
+                    <th>创建时间</th>
                     <th>操作</th>
                 </thead>
                 <tbody>
                     <tr v-for="item, index in paginatedData" :key="item.id">
-                        <td>{{ item.id }}</td>
-                        <td>{{ item.tableData.name }}</td>
-                        <td>{{ item.tableData.description }}</td>
+                        <td>{{ item.form_id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.date_time }}</td>
                         <td>
                             <button @click="checkForm(index)">查看</button>
-                            <button @click="deleteForm(item.id)">删除</button>
+                            <button @click="deleteForm(item.form_id)">删除</button>
                         </td>
                     </tr>
                 </tbody>
@@ -93,8 +96,11 @@ export default {
             data: [
                 {id:1, tableData: "table1"},
             ], // 列表数据
+            paginatedData: [],
             tableData: {
                 "name": "demo",
+                "description": "关于表格的描述",
+                "date_time": "2024-05-01 23:59:59",
                 "cells": [
                     {
                         "content": "全宗号",
@@ -228,62 +234,112 @@ export default {
             checkedId: "",
             pageSize: 10, // 每页显示的数据量
             currentPage: 1, // 当前页码
+            formsNum: -1,
             showModal: false, // 是否显示弹窗预览
         };
     },
     mounted() {
-        this.fetchForms();
+        // this.fetchForms();
+        this.setPaginatedData()
     },
     computed: {
         totalPages() {
-            return Math.ceil(this.data.length / this.pageSize);
+            return Math.ceil(this.formsNum / this.pageSize);
         },
-        paginatedData() {
+        paginatedData2() {
             const start = (this.currentPage - 1) * this.pageSize;
             const end = start + this.pageSize;
             return this.data.slice(start, end);
-        }
+        },
     },
     methods: {
         previousPage() {
+            if (this.currentPage <= 1) return;
             if (this.currentPage > 1) {
                 this.currentPage--;
             }
+            this.setPaginatedData();
+            console.log("previousPage()")
         },
         nextPage() {
-            if (this.currentPage < this.totalPages) {
-                this.currentPage++;
-            }
+            const totalPages = Math.ceil(this.formsNum / this.pageSize);
+            if (this.currentPage >= totalPages) return;
+            this.currentPage++;
+            this.setPaginatedData();
+            console.log("nextPage()")
+        },
+        setPaginatedData() {
+            const index = (this.currentPage - 1) * 10;
+            const size = this.pageSize;
+            this.fetchFormsNum();
+            this.fetchSomeForms(index, size);
         },
         fetchForms() {
             const params = {
                 function_name: "getAllForms"
             }
-            ipc.invoke(ipcApiRoute.formDbOperation, params).then(res => {
-                this.data = res.all_list;
+            ipc.invoke(ipcApiRoute.formSqliteDbOperation, params).then(res => {
+                this.data = res.result_list;
                 for (let i = 0; i < this.data.length; i++) {
                     this.data[i].tableData = JSON.parse(this.data[i].tableData);
                 }
                 console.log(this.data);
             });
         },
-        deleteForm(id) {
+        fetchSomeForms(index, size = 10) {
+            const params = {
+                function_name: "getSomeForms",
+                index: index,
+                size: size
+            };
+            let result_data = [];
+            /*
+            ipc.invoke(ipcApiRoute.formDbOperation, params).then(res => {
+                result_data = res.result_list;
+                if (result_data && result_data.length > 0) {}
+                for (let i = 0; i < result_data.length; i++) {
+                    result_data[i].tableData = JSON.parse(result_data[i].tableData);
+                    result_data[i].tableData = JSON.parse(result_data[i]);
+                    console.log(res);
+                }
+                this.paginatedData = result_data;
+                console.log("fetchSomeForms: ", result_data);
+            });
+            */
+            ipc.invoke(ipcApiRoute.formSqliteDbOperation, params).then(res => {
+                result_data = JSON.parse(res.result_list);
+                console.log(result_data);
+                for (let i = 0; i < result_data.length; i++) {
+                    console.log(res);
+                }
+                this.paginatedData = result_data;
+                console.log("fetchSomeForms: ", result_data);
+            });
+        },
+        fetchFormsNum() {
+            const params = {
+                function_name: "getFormsNum",
+            };
+            ipc.invoke(ipcApiRoute.formSqliteDbOperation, params).then(res => {
+                this.formsNum = res.result;
+                console.log("fetchFormsNum(): ", res);
+                console.log("formsNum:", this.formsNum);
+            });
+        },
+        deleteForm(form_id) {
             const params = {
                 function_name: "delFormById",
-                id: id
+                form_id: form_id
             }
-            ipc.invoke(ipcApiRoute.formDbOperation, params).then(res => {
+            ipc.invoke(ipcApiRoute.formSqliteDbOperation, params).then(res => {
                 this.$message.success("删除成功");
-                this.data = res.all_list;
-                for (let i = 0; i < this.data.length; i++) {
-                    this.data[i].tableData = JSON.parse(this.data[i].tableData);
-                }
+                this.setPaginatedData();
             });
         },
         checkForm(index) {
             this.showModal = !this.showModal;
-            this.tableData = this.data[index].tableData;
-            this.checkedId = this.data[index].id;
+            this.tableData = this.paginatedData[index];
+            this.checkedId = this.paginatedData[index].form_id;
         },
         updateForm() {
             if (this.checkedId == "") {
@@ -292,16 +348,19 @@ export default {
 
             const param = {
                 function_name: "updateFormById",
-                id: this.checkedId,
+                form_id: this.checkedId,
                 tableData: JSON.stringify(this.tableData)
             }
 
-            ipc.invoke(ipcApiRoute.formDbOperation, param).then(res => {
+            ipc.invoke(ipcApiRoute.formSqliteDbOperation, param).then(res => {
                 this.$message.success("更新成功");
+                /*
                 this.data = res.all_list;
                 for (let i = 0; i < this.data.length; i++) {
                     this.data[i].tableData = JSON.parse(this.data[i].tableData);
                 }
+                */
+                this.setPaginatedData();
             });
         },
         generateXLSX() {
@@ -312,6 +371,7 @@ export default {
             // 通过ipc调用electron业务层
             ipc.invoke(ipcApiRoute.generateXLSX, params).then(res => {
                 console.log('res:', res);
+                this.$message.success(res.message);
             });
         },
     }
@@ -350,14 +410,19 @@ table {
 
 th, td {
     border: 1px solid #ddd;
-    background-color: #ffffff;
+    background-color: #fff;
     padding: 8px;
     text-align: center;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #dce0d7;
 }
+
+tr:hover td {
+    background-color: #e8f7e7;
+}
+
 
 /* 弹窗的样式 */
 .modal-overlay {

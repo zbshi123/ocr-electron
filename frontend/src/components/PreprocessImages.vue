@@ -59,7 +59,6 @@ export default {
           let list = response.response_data;
           for (let i = 0; i < list.length; i++) {
             console.log("打印名字: ", list[i].name);
-            // console.log("打印url: ", list[i].image_url);
           }
           this.image_url_list = list;
           this.$message.success("请求处理成功");

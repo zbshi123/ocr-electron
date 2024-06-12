@@ -143,16 +143,42 @@ export default {
         },
         saveTableData() {
             // 保存tableData到json数据库中
+            this.tableData.date_time = this.getCurrentDateTime();
             const tableData = JSON.stringify(this.tableData);
             const params = {
                 function_name: "addForm",
                 tableData: tableData
             }
+            /*
+            // json数据库
             ipc.invoke(ipcApiRoute.formDbOperation, params).then(res => {
                 console.log("saveTableData(): ", res);
                 this.$message.success("保存成功");
             });
-        } 
+            */
+            ipc.invoke(ipcApiRoute.formSqliteDbOperation, params).then(res => {
+                console.log("saveTableData(): ", res);
+                this.$message.success("保存成功");
+            });
+        },
+        getCurrentDateTime() {
+            const now = new Date();
+            const year = now.getFullYear(); 
+            const month = now.getMonth() + 1; //月份从0开始,所以+1
+            const date = now.getDate(); 
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            // 格式化月份、日期、小时、分钟和秒数，使其至少为两位数字
+            const formattedMonth = month < 10 ? '0' + month : month;
+            const formattedDate = date < 10 ? '0' + date : date;
+            const formattedHours = hours < 10 ? '0' + hours : hours;
+            const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+            const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+
+            return `${year}-${formattedMonth}-${formattedDate} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+        }
     },
     data() {
         return {
@@ -163,6 +189,7 @@ export default {
             tableData: {
                 "name": "示例表格",
                 "description": "关于表格的描述",
+                "date_time": "2024-05-01 23:59:59",
                 "cells": [
                     {
                         "content": "全宗号",
@@ -323,6 +350,7 @@ export default {
 
 .edit-area {
     border: 2px solid #00000050;
+    margin-bottom: 10px;
     height: 200px;
     width: 100%;
     padding: 5px;
